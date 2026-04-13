@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Практика";
+}
+@* окно для практики, где создаются кнопки, которые затем отправляют на выбранную тему  *@
+<div class="text-center">
+    <h1 class="mb-4">Практика решения уравнений</h1>
+    <p class="lead mb-5">Выберите степень уравнения:</p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a asp-controller="Practice" asp-action="Linear" class="btn btn-outline-success">1 степень</a>
+        <a asp-controller="Practice" asp-action="Quadratic" class="btn btn-outline-success">2 степень</a>
+        <a asp-controller="Practice" asp-action="Cubic" class="btn btn-outline-success">3 степень</a>
+        <a asp-controller="Practice" asp-action="Quartic" class="btn btn-outline-success">4 степень</a>
+    </div>
+</div>

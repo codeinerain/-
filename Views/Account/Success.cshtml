@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Успешная регистрация";
+}
+@* после регистрации или входа, пользователю выходит эта страница, где ему предлагают перейти на главную *@
+<div class="text-center">
+    <h2>@ViewBag.Message</h2>
+    <p class="mt-3">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-primary">На главную</a>
+    </p>
+</div>

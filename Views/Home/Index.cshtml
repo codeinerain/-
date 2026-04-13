@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Главная";
+}
+@* главная страница с двумя случаями :  1. пользователь уже зашел на аккаунт или зарегистрировался, для него открыта теория и практика.
+2. пользователь не зарегистрировался и у него открыт начальный экран. пройдет аутенфикацию - перейдет на первый случай. *@
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <p class="lead mb-2">Выберите раздел:</p>
+
+        <div class="d-flex justify-content-center gap-4 flex-wrap">
+            <a asp-controller="Theory" asp-action="Index" class="btn btn-primary btn-lg" style="width: 200px;">Теория</a>
+            <a asp-controller="Practice" asp-action="Index" class="btn btn-success btn-lg" style="width: 200px;">Практика</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="mb-4">Добро пожаловать в тренажёр уравнений!</h1>
+        <p class="lead mb-4">Пожалуйста, войдите или зарегистрируйтесь, чтобы начать обучение.</p>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Вход</a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-success">Регистрация</a>
+        </div>
+    </div>
+}

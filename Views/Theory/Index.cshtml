@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Теория";
+}
+@* кнопки для теории, какую кнопкку пользователь нажмет - в тот раздел и перейдет *@
+<div class="text-center">
+    <h1 class="mb-4">Теория уравнений</h1>
+    <p class="lead mb-5">Выберите степень уравнения:</p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a asp-controller="Theory" asp-action="Linear" class="btn btn-outline-primary">Линейные уравнения </a>
+        <a asp-controller="Theory" asp-action="Quadratic" class="btn btn-outline-primary">Квадратные уравнения</a>
+        <a asp-controller="Theory" asp-action="Cubic" class="btn btn-outline-primary">Кубические уравнения</a>
+        <a asp-controller="Theory" asp-action="Quartic" class="btn btn-outline-primary">Уравнения 4 степени</a>
+    </div>
+</div>
