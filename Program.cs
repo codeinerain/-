@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
+using Web.Services;
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ using Web.Data;
     builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+    builder.Services.AddScoped<EquationSolverService>();
 
     // Add services to the container.
     builder.Services.AddControllersWithViews();

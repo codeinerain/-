@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Тренажер уравнений";
+}
+
+<h1>Решатель уравнений</h1>
+
+<select id="degreeSelect">
+    <option value="1">Линейное</option>
+    <option value="2">Квадратное</option>
+    <option value="3">Кубическое</option>
+    <option value="4">4-й степени</option>
+</select>
+
+<label><input type="checkbox" id="integerRoots"> Целые корни</label>
+<label><input type="checkbox" id="realOnly"> Только вещественные</label>
+
+<button id="solveBtn">Сгенерировать и решить</button>
+
+<h2>Решение:</h2>
+<div id="steps"></div>
+
+<h2>Корни:</h2>
+<div id="roots"></div>
+
+<h2>График корней:</h2>
+<div id="plot" style="width: 600px; height: 400px;"></div>
+
+<script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+<script>
+    document.getElementById("solveBtn").onclick = async () => {
+        const degree = document.getElementById("degreeSelect").value;
+        const integerRoots = document.getElementById("integerRoots").checked;
+        const realOnly = document.getElementById("realOnly").checked;
+
+        const response = await fetch("/Equation/Solve", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ degree, integerRoots, realOnly })
+        });
+        const data = await response.json();
+
+        // Шаги
+        document.getElementById("steps").innerHTML = data.steps.map(s => `<div>${s}</div>`).join("");
+
+        // Корни
+        document.getElementById("roots").innerHTML = data.roots.map((r, i) => {
+            let str = r.real.toFixed(4);
+            if (Math.abs(r.imaginary) > 1e-10) str += ` + ${r.imaginary.toFixed(4)}i`;
+            return `<div>x${i+1} = ${str}</div>`;
+        }).join("");
+
+        // График
+        const trace = {
+            x: data.roots.map(r => r.real),
+            y: data.roots.map(r => r.imaginary),
+            mode: 'markers',
+            type: 'scatter',
+            marker: { size: 10, color: 'red' }
+        };
+        Plotly.newPlot('plot', [trace], {
+            title: 'Корни на комплексной плоскости',
+            xaxis: { title: 'Re(z)' },
+            yaxis: { title: 'Im(z)' }
+        });
+    };
+</script>

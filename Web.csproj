@@ -30,4 +30,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Equation\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

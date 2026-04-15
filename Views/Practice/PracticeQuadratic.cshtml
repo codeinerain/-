@@ -1,4 +1,96 @@
-﻿@page
-@model Web.Views.Practice.QuadraticModel
-@{
+﻿@{
+    ViewData["Title"] = "Квадратные уравнения - Практика";
 }
+
+<h2 class="text-center mb-4">Квадратные уравнения (2 степень)</h2>
+<p class="text-center mb-4">Уравнение вида: <strong>ax² + bx + c = 0</strong></p>
+<p class="text-center mb-4">Метод решения: <strong>Дискриминант D = b² - 4ac</strong></p>
+
+@if (ViewBag.Equation == null)
+{
+    <div class="text-center mb-4">
+        <form method="post" asp-action="Quadratic" asp-controller="Practice">
+            <input type="hidden" name="degree" value="2" />
+            <input type="hidden" name="integerRoots" value="false" />
+            <input type="hidden" name="realOnly" value="true" />
+            <input type="hidden" name="showSolution" value="false" />
+            <button type="submit" class="btn btn-primary btn-lg">Сгенерировать уравнение</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="card p-4 mx-auto" style="max-width: 800px;">
+        <h3 class="text-center">Сгенерированное уравнение:</h3>
+        <p class="fs-4 text-center">@ViewBag.Equation</p>
+
+        @if (ViewBag.ShowSolution)
+        {
+            <h4>Корни уравнения:</h4>
+            <ul>
+                @if (ViewBag.Roots != null && ViewBag.Roots.Count > 0)
+                {
+                    int i = 1;
+                    foreach (var root in ViewBag.Roots)
+                    {
+                        if (Math.Abs(root.Imaginary) < 0.0001)
+                        {
+                            <li>x<sub>@i</sub> = @Math.Round(root.Real, 4)</li>
+                        }
+                        else
+                        {
+                            <li>x<sub>@i</sub> = @Math.Round(root.Real, 4) + @Math.Round(root.Imaginary, 4)i</li>
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    <li>Корни не найдены</li>
+                }
+            </ul>
+
+            @if (ViewBag.Steps != null && ViewBag.Steps.Count > 0)
+            {
+                <h4>Пошаговое решение (Дискриминант):</h4>
+                <ul>
+                    @foreach (var step in ViewBag.Steps)
+                    {
+                        <li>@step</li>
+                    }
+                </ul>
+            }
+
+            @if (!string.IsNullOrEmpty(ViewBag.Error))
+            {
+                <div class="alert alert-danger">Ошибка: @ViewBag.Error</div>
+            }
+        }
+        else
+        {
+            <div class="text-center mt-3">
+                <form method="post" asp-action="Quadratic" asp-controller="Practice">
+                    <input type="hidden" name="degree" value="2" />
+                    <input type="hidden" name="integerRoots" value="false" />
+                    <input type="hidden" name="realOnly" value="true" />
+                    <input type="hidden" name="showSolution" value="true" />
+                    <button type="submit" class="btn btn-success">Показать решение</button>
+                </form>
+            </div>
+        }
+
+        <div class="text-center mt-3">
+            <form method="post" asp-action="Quadratic" asp-controller="Practice">
+                <input type="hidden" name="degree" value="2" />
+                <input type="hidden" name="integerRoots" value="false" />
+                <input type="hidden" name="realOnly" value="true" />
+                <input type="hidden" name="showSolution" value="false" />
+                <button type="submit" class="btn btn-secondary">Новое уравнение</button>
+            </form>
+        </div>
+    </div>
+}
+
+<div class="text-center mt-4">
+    <a asp-controller="Practice" asp-action="Index" class="btn btn-secondary">Назад к выбору</a>
+</div>
