@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Линейные уравнения - пошаговое решение";
+}
+
+<h2 class="text-center mb-4">Линейные уравнения (1 степень)</h2>
+<p class="text-center mb-4">Уравнение вида: \(ax + b = 0\)</p>
+
+<div class="card p-4 mx-auto" style="max-width: 500px;">
+    <h4 class="text-center">Введите коэффициенты:</h4>
+
+    <form method="post" asp-action="LinearStart">
+        <div class="mb-3">
+            <label class="form-label">a (коэффициент при x)</label>
+            <input type="number" name="a" class="form-control" step="any" required />
+            <small class="text-muted">a ≠ 0</small>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">b (свободный член)</label>
+            <input type="number" name="b" class="form-control" step="any" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Начать решение</button>
+    </form>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-controller="StepByStep" asp-action="Index" class="btn btn-secondary">Назад</a>
+</div>

@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Шаг 3 - Разложение на квадратные уравнения";
+}
+
+<h2 class="text-center mb-4">Шаг 3: Разложение на квадратные уравнения</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 600px;">
+    <h4 class="text-center">Корень резольвенты: t₀ = @ViewBag.T0</h4>
+
+    <p><strong>Вычисляем параметры:</strong></p>
+    <p>\(A = \sqrt{t_0} = @ViewBag.A1\)</p>
+    <p>\(B = \frac{q}{2A} = @ViewBag.B1\)</p>
+    <p>\(C = \frac{p + t_0}{2} = @ViewBag.C1\)</p>
+
+    <p><strong>Разложение:</strong></p>
+    <p>\((y^2 + Ay + C - B)(y^2 - Ay + C + B) = 0\)</p>
+
+    <p><strong>Два квадратных уравнения:</strong></p>
+    <p>\(y^2 + @ViewBag.A1 y + @ViewBag.CMinusB = 0\)</p>
+    <p>\(y^2 - @ViewBag.A1 y + @ViewBag.CPlusB = 0\)</p>
+
+    <form method="post">
+        <button type="submit" class="btn btn-primary w-100">Далее →</button>
+    </form>
+</div>

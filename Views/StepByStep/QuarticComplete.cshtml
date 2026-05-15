@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Решение уравнения 4 степени завершено";
+}
+
+<h2 class="text-center mb-4">Решение завершено! 🎉</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 700px;">
+    <h4 class="text-center">Исходное уравнение: \(@ViewBag.Equation\)</h4>
+
+    <h4>Полное решение:</h4>
+
+    <ol>
+        <li>Замена \(x = y - \frac{b}{4a} = y - @ViewBag.Shift\)</li>
+        <li>Получаем: \(y^4 + @ViewBag.P1 y^2 + @ViewBag.Q1 y + @ViewBag.R1 = 0\)</li>
+        <li>Кубическая резольвента: \(t^3 - @ViewBag.P1 t^2 - 4@ViewBag.R1 t + (4@ViewBag.P1@ViewBag.R1 - @ViewBag.Q1^2) = 0\)</li>
+        <li>Корень резольвенты: \(t_0 = @ViewBag.T0\)</li>
+        <li>
+            Параметры:
+            <ul>
+                <li>\(A = \sqrt{t_0} = @ViewBag.A1\)</li>
+                <li>\(B = \frac{q}{2A} = @ViewBag.B1\)</li>
+                <li>\(C = \frac{p + t_0}{2} = @ViewBag.C1\)</li>
+            </ul>
+        </li>
+        <li>Разложение: \((y^2 + Ay + C - B)(y^2 - Ay + C + B) = 0\)</li>
+        <li>Решаем два квадратных уравнения</li>
+        <li>
+            Корни:
+            <ul>
+                <li>\(x_1 = @ViewBag.Root1\)</li>
+                <li>\(x_2 = @ViewBag.Root2\)</li>
+                <li>\(x_3 = @ViewBag.Root3\)</li>
+                <li>\(x_4 = @ViewBag.Root4\)</li>
+            </ul>
+        </li>
+    </ol>
+
+    <div class="text-center mt-3">
+        <a asp-controller="StepByStep" asp-action="Index" class="btn btn-primary">Решить другое уравнение</a>
+        <a asp-controller="Practice" asp-action="Index" class="btn btn-secondary">Перейти к практике</a>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "Решение завершено";
+}
+
+<h2 class="text-center mb-4">Решение завершено! 🎉</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 600px;">
+    <h4 class="text-center">Исходное уравнение: \(@ViewBag.Equation\)</h4>
+
+    <h4>Полное решение:</h4>
+
+    <ol>
+        <li>\(x = -\frac{b}{a} = -\frac{@ViewBag.B}{@ViewBag.A}\)</li>
+        <li>\(x = @ViewBag.Root1\)</li>
+    </ol>
+
+    <div class="text-center mt-3">
+        <a asp-controller="StepByStep" asp-action="Index" class="btn btn-primary">Решить другое уравнение</a>
+        <a asp-controller="Practice" asp-action="Index" class="btn btn-secondary">Перейти к практике</a>
+    </div>
+</div>

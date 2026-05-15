@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Шаг 1 - Нахождение корня";
+}
+
+<h2 class="text-center mb-4">Решение линейного уравнения</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 600px;">
+    <h4 class="text-center">Уравнение: \(@ViewBag.Equation\)</h4>
+
+    <p><strong>Формула:</strong> \(x = -\frac{b}{a}\)</p>
+    <p><strong>Подставляем:</strong> \(x = -\frac{@ViewBag.B}{@ViewBag.A}\)</p>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">@Html.Raw(ViewBag.Error)</div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Чему равен корень x?</label>
+            <input type="number" name="userRoot" class="form-control" step="any"
+                   value="@ViewBag.UserAnswer" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Проверить</button>
+    </form>
+</div>

@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Шаг 2 - Вычисление Δ";
+}
+
+<h2 class="text-center mb-4">Шаг 2: Вычисление Δ </h2>
+
+<div class="card p-4 mx-auto" style="max-width: 600px;">
+    <h4 class="text-center">Приведённое уравнение: \(t^3 @FormatNumberWithSign(ViewBag.P) t @FormatNumberWithSign(ViewBag.Q) = 0\)</h4>
+
+    <p><strong>Формула Δ :</strong></p>
+    <p>\(\Delta = \left(\frac{q}{2}\right)^2 + \left(\frac{p}{3}\right)^3\)</p>
+
+    <p><strong>Подставляем:</strong></p>
+    <p>\(\Delta = \left(\frac{@ViewBag.Q}{2}\right)^2 + \left(\frac{@ViewBag.P}{3}\right)^3\)</p>
+
+    <p><strong>Вычислено программой:</strong> \(\Delta = @ViewBag.Delta\)</p>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">❌ @ViewBag.Error</div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Чему равен  Δ?</label>
+            <input type="number" name="userDelta" class="form-control" step="any"
+                   value="@ViewBag.UserDelta" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Проверить</button>
+    </form>
+</div>
+@functions {
+    private string FormatNumberWithSign(double value)
+    {
+        if (value == 0) return "0";
+        if (value > 0) return $"+ {value:F4}";
+        return $"- {Math.Abs(value):F4}";
+    }
+}

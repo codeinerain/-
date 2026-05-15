@@ -1,0 +1,12 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace Web.Views.StepByStep
+{
+    public class QuarticStep1Model : PageModel
+    {
+        public void OnGet()
+        {
+        }
+    }
+}

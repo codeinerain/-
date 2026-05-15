@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Шаг 1 - Приведение к каноническому виду";
+}
+
+<h2 class="text-center mb-4">Шаг 1: Приведение к каноническому виду</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 700px;">
+    <h4 class="text-center">Исходное уравнение: \(@ViewBag.Equation\)</h4>
+
+    <p><strong>1. Делим на a = @ViewBag.A:</strong></p>
+    <p>\(x^3 + \frac{@ViewBag.B}{@ViewBag.A}x^2 + \frac{@ViewBag.C}{@ViewBag.A}x + \frac{@ViewBag.D}{@ViewBag.A} = 0\)</p>
+
+    <p><strong>2. Замена \(x = t - \frac{b}{3a} = t - \frac{@ViewBag.B}{3 \cdot @ViewBag.A}\):</strong></p>
+    <p>Получаем приведённое уравнение: \(t^3 + pt + q = 0\)</p>
+
+    <p><strong>3. Вычислите p и q:</strong></p>
+    <p>\(p = \frac{3ac - b^2}{3a^2} = \frac{3 \cdot @ViewBag.A \cdot @ViewBag.C - @ViewBag.B^2}{3 \cdot @ViewBag.A^2}\)</p>
+    <p>\(q = \frac{2b^3 - 9abc + 27a^2d}{27a^3} = \frac{2 \cdot @ViewBag.B^3 - 9 \cdot @ViewBag.A \cdot @ViewBag.B \cdot @ViewBag.C + 27 \cdot @ViewBag.A^2 \cdot @ViewBag.D}{27 \cdot @ViewBag.A^3}\)</p>
+
+    @if (ViewBag.ErrorP != null || ViewBag.ErrorQ != null)
+    {
+        <div class="alert alert-warning">
+            @if (ViewBag.ErrorP != null)
+            {
+                <p>❌ @ViewBag.ErrorP</p>
+            }
+            @if (ViewBag.ErrorQ != null)
+            {
+                <p>❌ @ViewBag.ErrorQ</p>
+            }
+        </div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">p =</label>
+            <input type="number" name="userP" class="form-control" step="any"
+                   value="@ViewBag.UserP" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">q =</label>
+            <input type="number" name="userQ" class="form-control" step="any"
+                   value="@ViewBag.UserQ" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Проверить</button>
+    </form>
+</div>

@@ -18,8 +18,16 @@ using Web.Services;
 
     builder.Services.AddScoped<EquationSolverService>();
 
-    // Add services to the container.
-    builder.Services.AddControllersWithViews();
+    builder.Services.AddDistributedMemoryCache();
+    builder.Services.AddSession(options =>
+    {
+        options.IdleTimeout = TimeSpan.FromMinutes(30);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+    });
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
 
     var app = builder.Build();
 
@@ -31,11 +39,16 @@ using Web.Services;
         app.UseHsts();
     }
 
+
+
+
     app.UseHttpsRedirection();
     app.UseRouting();
 
     app.UseAuthentication();
     app.UseAuthorization();
+
+    app.UseSession();
 
     app.MapStaticAssets();
     app.MapControllerRoute(

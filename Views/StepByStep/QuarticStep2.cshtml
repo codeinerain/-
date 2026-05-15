@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Шаг 2 - Кубическая резольвента";
+}
+
+<h2 class="text-center mb-4">Шаг 2: Кубическая резольвента</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 600px;">
+    <h4 class="text-center">Приведённое уравнение: \(y^4 + @ViewBag.P1 y^2 + @ViewBag.Q1 y + @ViewBag.R1 = 0\)</h4>
+
+    <p><strong>Кубическая резольвента:</strong></p>
+    <p>\(t^3 - p t^2 - 4r t + (4pr - q^2) = 0\)</p>
+
+    <p><strong>Подставляем:</strong></p>
+    <p>\(t^3 - (@ViewBag.P1) t^2 - 4 \cdot (@ViewBag.R1) t + (4 \cdot @ViewBag.P1 \cdot @ViewBag.R1 - @ViewBag.Q1^2) = 0\)</p>
+
+    <p><strong>Найдите t₀ (любой действительный корень):</strong></p>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">❌ @ViewBag.Error</div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">t₀ =</label>
+            <input type="number" name="userT0" class="form-control" step="any"
+                   value="@ViewBag.UserT0" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Проверить</button>
+    </form>
+</div>
+@functions {
+    private string FormatNumberWithSign(double value)
+    {
+        if (value == 0) return "0";
+        if (value > 0) return $"+ {value:F4}";
+        return $"- {Math.Abs(value):F4}";
+    }
+}

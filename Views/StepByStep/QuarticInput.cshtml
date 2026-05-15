@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Уравнения 4 степени - пошаговое решение";
+}
+
+<h2 class="text-center mb-4">Уравнения 4 степени</h2>
+<p class="text-center mb-4">Уравнение вида: \(ax^4 + bx^3 + cx^2 + dx + e = 0\)</p>
+
+<div class="card p-4 mx-auto" style="max-width: 500px;">
+    <h4 class="text-center">Введите коэффициенты:</h4>
+    
+    <form method="post" asp-action="QuarticStart">
+        <div class="mb-3">
+            <label class="form-label">a (коэффициент при x⁴)</label>
+            <input type="number" name="a" class="form-control" step="any" required />
+            <small class="text-muted">a ≠ 0</small>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">b (коэффициент при x³)</label>
+            <input type="number" name="b" class="form-control" step="any" required />
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">c (коэффициент при x²)</label>
+            <input type="number" name="c" class="form-control" step="any" required />
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">d (коэффициент при x)</label>
+            <input type="number" name="d" class="form-control" step="any" required />
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">e (свободный член)</label>
+            <input type="number" name="e" class="form-control" step="any" required />
+        </div>
+        
+        <button type="submit" class="btn btn-primary w-100">Начать решение</button>
+    </form>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-controller="StepByStep" asp-action="Index" class="btn btn-secondary">Назад</a>
+</div>

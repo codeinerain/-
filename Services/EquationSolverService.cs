@@ -79,8 +79,7 @@ namespace Web.Services
                 _instruction = true;
             }
             res.Steps.Add(step);
-           /* Console.WriteLine(step);
-            Console.ReadKey();*/
+
         }
     }
 
@@ -510,7 +509,7 @@ namespace Web.Services
         public double Imaginary { get; set; }
     }
 
-    // ========== СЕРВИС ДЛЯ КОНТРОЛЛЕРА ==========
+    // СЕРВИС ДЛЯ КОНТРОЛЛЕРА 
     public class EquationSolverService
     {
         public EquationResult SolveEquation(int degree, bool integerRoots, bool realOnly, string equationText)

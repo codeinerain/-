@@ -3,7 +3,7 @@
 namespace Web.Models.Database
 
 {
-/*здесь поля, которые содержатся в бд*/
+//здесь поля, которые содержатся в бд
     public class User
     {
         [Key]
@@ -18,7 +18,7 @@ namespace Web.Models.Database
 
         public DateTime RegistrationDate { get; set; } = DateTime.Now;
 
-        // Статистика (пока простые поля, потом расширим)
+        // Статистика пока простые поля, потом расширим
         public int TotalTasksSolved { get; set; } = 0;
         public int CorrectAnswers { get; set; } = 0;
         public int ExperiencePoints { get; set; } = 0;

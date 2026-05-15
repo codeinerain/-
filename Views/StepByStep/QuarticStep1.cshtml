@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Шаг 1 - Приведение к каноническому виду";
+}
+
+<h2 class="text-center mb-4">Шаг 1: Приведение к каноническому виду</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 700px;">
+    <h4 class="text-center">Исходное уравнение: \(@ViewBag.Equation\)</h4>
+
+    <p><strong>1. Делим на a = @ViewBag.A:</strong></p>
+    <p>\(x^4 + \frac{@ViewBag.B}{@ViewBag.A}x^3 + \frac{@ViewBag.C}{@ViewBag.A}x^2 + \frac{@ViewBag.D}{@ViewBag.A}x + \frac{@ViewBag.E}{@ViewBag.A} = 0\)</p>
+
+    <p><strong>2. Замена \(x = y - \frac{b}{4a} = y - \frac{@ViewBag.B}{4 \cdot @ViewBag.A}\):</strong></p>
+    <p>Получаем приведённое уравнение: \(y^4 + py^2 + qy + r = 0\)</p>
+
+    <p><strong>3. Вычислите p, q и r:</strong></p>
+    <p>\(p = \frac{c}{a} - \frac{3b^2}{8a^2}\)</p>
+    <p>\(q = \frac{d}{a} - \frac{bc}{2a^2} + \frac{b^3}{8a^3}\)</p>
+    <p>\(r = \frac{e}{a} - \frac{bd}{4a^2} + \frac{b^2c}{16a^3} - \frac{3b^4}{256a^4}\)</p>
+
+    @if (ViewBag.ErrorP != null || ViewBag.ErrorQ != null || ViewBag.ErrorR != null)
+    {
+        <div class="alert alert-warning">
+            @if (ViewBag.ErrorP != null)
+            {
+                <p>❌ @ViewBag.ErrorP</p>
+            }
+            @if (ViewBag.ErrorQ != null)
+            {
+                <p>❌ @ViewBag.ErrorQ</p>
+            }
+            @if (ViewBag.ErrorR != null)
+            {
+                <p>❌ @ViewBag.ErrorR</p>
+            }
+        </div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">p =</label>
+            <input type="number" name="userP" class="form-control" step="any"
+                   value="@ViewBag.UserP" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">q =</label>
+            <input type="number" name="userQ" class="form-control" step="any"
+                   value="@ViewBag.UserQ" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">r =</label>
+            <input type="number" name="userR" class="form-control" step="any"
+                   value="@ViewBag.UserR" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Проверить</button>
+    </form>
+</div>

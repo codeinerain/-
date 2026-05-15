@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Решение кубического уравнения завершено";
+}
+
+<h2 class="text-center mb-4">Решение завершено! 🎉</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 700px;">
+    <h4 class="text-center">Исходное уравнение: \(@ViewBag.Equation\)</h4>
+    
+    <h4>Полное решение:</h4>
+    
+    <ol>
+        <li>Приводим к каноническому виду заменой \(x = t - \frac{b}{3a} = t - @ViewBag.Shift\)</li>
+        <li>Получаем: \(t^3 + @ViewBag.P t + @ViewBag.Q = 0\)</li>
+        <li>Вычисляем дискриминант: \(\Delta = \left(\frac{@ViewBag.Q}{2}\right)^2 + \left(\frac{@ViewBag.P}{3}\right)^3 = @ViewBag.Delta\)</li>
+        
+        @if (ViewBag.Delta > 0)
+        {
+            <li>\(\Delta > 0\) → один действительный и два комплексных корня</li>
+            <li>\(\alpha = \sqrt[3]{-\frac{@ViewBag.Q}{2} + \sqrt{@ViewBag.Delta}} = @ViewBag.Alpha\)</li>
+            <li>\(\beta = \sqrt[3]{-\frac{@ViewBag.Q}{2} - \sqrt{@ViewBag.Delta}} = @ViewBag.Beta\)</li>
+            <li>\(t_1 = \alpha + \beta = @ViewBag.Root1 + @ViewBag.Shift\)</li>
+            <li>\(x_1 = @ViewBag.Root1\)</li>
+            <li>\(x_2 = @ViewBag.Root2Real + @ViewBag.Root2Imag i\)</li>
+            <li>\(x_3 = @ViewBag.Root2Real - @ViewBag.Root2Imag i\)</li>
+        }
+        else if (Math.Abs(ViewBag.Delta) < 0.0001)
+        {
+            <li>\(\Delta = 0\) → кратные корни</li>
+            <li>\(x_1 = @ViewBag.Root1\)</li>
+            <li>\(x_2 = x_3 = @ViewBag.Root2\)</li>
+        }
+        else
+        {
+            <li>\(\Delta &lt; 0\) → три действительных корня</li>
+            <li>\(x_1 = @ViewBag.Root1\)</li>
+            <li>\(x_2 = @ViewBag.Root2\)</li>
+            <li>\(x_3 = @ViewBag.Root3\)</li>
+        }
+    </ol>
+    
+    <div class="text-center mt-3">
+        <a asp-controller="StepByStep" asp-action="Index" class="btn btn-primary">Решить другое уравнение</a>
+        <a asp-controller="Practice" asp-action="Index" class="btn btn-secondary">Перейти к практике</a>
+    </div>
+</div>

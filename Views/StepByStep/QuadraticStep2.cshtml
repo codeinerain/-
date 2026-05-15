@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Шаг 2 - Нахождение корней";
+}
+
+<h2 class="text-center mb-4">Шаг 2: Нахождение корней</h2>
+
+<div class="card p-4 mx-auto" style="max-width: 600px;">
+    <h4 class="text-center">Уравнение: \(@ViewBag.Equation\)</h4>
+
+    @if (ViewBag.D > 0)
+    {
+        <p><strong>Дискриминант D = @ViewBag.D</strong> → два действительных корня</p>
+        <p><strong>Формула:</strong> \(x = \frac{-b \pm \sqrt{D}}{2a}\)</p>
+        <p><strong>Подставляем:</strong> \(x = \frac{-@ViewBag.B \pm \sqrt{@ViewBag.D}}{2 \cdot @ViewBag.A}\)</p>
+    }
+    else if (Math.Abs(ViewBag.D) < 0.0001)
+    {
+        <p><strong>Дискриминант D = 0</strong> → один корень (два совпадающих)</p>
+        <p><strong>Формула:</strong> \(x = -\frac{b}{2a}\)</p>
+    }
+    else
+    {
+        <p><strong>Дискриминант D = @ViewBag.D</strong> → комплексные корни</p>
+        <p><strong>Формула:</strong> \(x = -\frac{b}{2a} \pm i\frac{\sqrt{|D|}}{2a}\)</p>
+    }
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">@Html.Raw(ViewBag.Error)</div>
+    }
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">x₁ =</label>
+            <input type="number" name="root1" class="form-control" step="any"
+                   value="@ViewBag.UserRoot1" required />
+        </div>
+
+        @if (Math.Abs(ViewBag.D) > 0.0001)
+        {
+            <div class="mb-3">
+                <label class="form-label">x₂ =</label>
+                <input type="number" name="root2" class="form-control" step="any"
+                       value="@ViewBag.UserRoot2" required />
+            </div>
+        }
+        else
+        {
+            <input type="hidden" name="root2" value="@ViewBag.UserRoot2" />
+        }
+
+        <button type="submit" class="btn btn-primary w-100">Проверить корни</button>
+    </form>
+</div>

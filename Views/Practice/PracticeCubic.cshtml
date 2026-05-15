@@ -3,12 +3,11 @@
 }
 
 <h2 class="text-center mb-4">Кубические уравнения (3 степень)</h2>
-<p class="text-center mb-4">Уравнение вида: <strong>ax³ + bx² + cx + d = 0</strong></p>
+<p class="text-center mb-4">Уравнение вида: <strong>\(ax³ + bx² + cx + d = 0\)</strong></p>
 <p class="text-center mb-4">Метод решения: <strong>Метод Кардано</strong></p>
 
 @if (ViewBag.Equation == null)
 {
-    <!-- Первый запуск: показываем только кнопку генерации -->
     <div class="text-center mb-4">
         <form method="post" asp-action="Cubic" asp-controller="Practice">
             <input type="hidden" name="degree" value="3" />
@@ -27,6 +26,18 @@ else
 
         @if (ViewBag.ShowSolution)
         {
+            <!-- ПОКАЗЫВАЕМ РЕШЕНИЕ -->
+            @if (ViewBag.Steps != null && ViewBag.Steps.Count > 0)
+            {
+                <h4>Пошаговое решение (Метод Кардано):</h4>
+                <ul>
+                    @foreach (var step in ViewBag.Steps)
+                    {
+                        <li>@step</li>
+                    }
+                </ul>
+            }
+
             <h4>Корни уравнения:</h4>
             <ul>
                 @if (ViewBag.Roots != null && ViewBag.Roots.Count > 0)
@@ -51,46 +62,82 @@ else
                 }
             </ul>
 
-            @if (ViewBag.Steps != null && ViewBag.Steps.Count > 0)
-            {
-                <h4>Пошаговое решение (Метод Кардано):</h4>
-                <ul>
-                    @foreach (var step in ViewBag.Steps)
-                    {
-                        <li>@step</li>
-                    }
-                </ul>
-            }
-
             @if (!string.IsNullOrEmpty(ViewBag.Error))
             {
                 <div class="alert alert-danger">Ошибка: @ViewBag.Error</div>
             }
-        }
-        else
-        {
-            <!-- Кнопка "Показать решение" -->
+
             <div class="text-center mt-3">
                 <form method="post" asp-action="Cubic" asp-controller="Practice">
                     <input type="hidden" name="degree" value="3" />
                     <input type="hidden" name="integerRoots" value="false" />
                     <input type="hidden" name="realOnly" value="true" />
-                    <input type="hidden" name="showSolution" value="true" />
-                    <button type="submit" class="btn btn-success">Показать решение</button>
+                    <input type="hidden" name="showSolution" value="false" />
+                    <button type="submit" class="btn btn-secondary">Новое уравнение</button>
                 </form>
             </div>
         }
+        else
+        {
+            <!-- ФОРМА ДЛЯ ВВОДА КОРНЕЙ ПОЛЬЗОВАТЕЛЕМ -->
+            <div class="mt-4">
+                <h4>Проверьте себя!</h4>
+                <p>Введите найденные корни и нажмите "Проверить", чтобы проверить себя:</p>
 
-        <!-- Кнопка "Новое уравнение" (всегда внизу) -->
-        <div class="text-center mt-3">
-            <form method="post" asp-action="Cubic" asp-controller="Practice">
-                <input type="hidden" name="degree" value="3" />
-                <input type="hidden" name="integerRoots" value="false" />
-                <input type="hidden" name="realOnly" value="true" />
-                <input type="hidden" name="showSolution" value="false" />
-                <button type="submit" class="btn btn-secondary">Новое уравнение</button>
-            </form>
-        </div>
+                <form method="post" asp-action="CheckRoots" asp-controller="Practice">
+                    <input type="hidden" name="degree" value="3" />
+
+                    <div class="mb-2">
+                        <label class="form-label fw-bold">x₁ =</label>
+                        <input type="text" name="root1" class="form-control" placeholder="Например: 2.5"
+                               style="max-width: 200px;" />
+                        <small class="text-muted">Введите десятичную дробь (например, 2.5) или целое число</small>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label fw-bold">x₂ =</label>
+                        <input type="text" name="root2" class="form-control" placeholder="Например: -1.3"
+                               style="max-width: 200px;" />
+                        <small class="text-muted">Введите десятичную дробь (например, -1.3) или целое число</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">x₃ =</label>
+                        <input type="text" name="root3" class="form-control" placeholder="Например: 0.75"
+                               style="max-width: 200px;" />
+                        <small class="text-muted">Введите десятичную дробь (например, 0.75) или целое число</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-info me-2">Проверить корни</button>
+                </form>
+
+                @if (TempData["CheckMessage"] != null)
+                {
+                    <div class="alert @(TempData["IsCorrect"]?.ToString() == "True" ? "alert-success" : "alert-warning") mt-3">
+                        @Html.Raw(TempData["CheckMessage"])
+                    </div>
+                }
+
+                <!-- Кнопка для показа решения без проверки -->
+                <div class="text-center mt-3">
+                    <form method="post" asp-action="Cubic" asp-controller="Practice">
+                        <input type="hidden" name="degree" value="3" />
+                        <input type="hidden" name="integerRoots" value="false" />
+                        <input type="hidden" name="realOnly" value="true" />
+                        <input type="hidden" name="showSolution" value="true" />
+                        <button type="submit" class="btn btn-success">Показать решение</button>
+                    </form>
+                </div>
+
+                <div class="text-center mt-3">
+                    <form method="post" asp-action="Cubic" asp-controller="Practice">
+                        <input type="hidden" name="degree" value="3" />
+                        <input type="hidden" name="integerRoots" value="false" />
+                        <input type="hidden" name="realOnly" value="true" />
+                        <input type="hidden" name="showSolution" value="false" />
+                        <button type="submit" class="btn btn-secondary">Новое уравнение</button>
+                    </form>
+                </div>
+            </div>
+        }
     </div>
 }
 

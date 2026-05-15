@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Пошаговое решение";
+}
+
+<h2 class="text-center mb-4">Пошаговое решение уравнений</h2>
+<p class="text-center mb-4">Выберите степень уравнения:</p>
+
+<div class="d-flex justify-content-center gap-3 flex-wrap">
+    <a asp-controller="StepByStep" asp-action="Linear" class="btn btn-outline-info btn-lg" style="width: 200px;">1 степень</a>
+    <a asp-controller="StepByStep" asp-action="Quadratic" class="btn btn-outline-info btn-lg" style="width: 200px;">2 степень</a>
+    <a asp-controller="StepByStep" asp-action="Cubic" class="btn btn-outline-info btn-lg" style="width: 200px;">3 степень</a>
+    <a asp-controller="StepByStep" asp-action="Quartic" class="btn btn-outline-info btn-lg" style="width: 200px;">4 степень</a>
+</div>
+
+@* <div class="text-center mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">На главную</a>
+</div> *@
