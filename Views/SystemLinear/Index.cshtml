@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Системы линейных уравнений";
+}
+
+<h2 class="text-center mb-4">Системы линейных уравнений</h2>
+
+<p class="text-center mb-4">Выберите метод решения:</p>
+
+<div class="d-flex justify-content-center gap-4 flex-wrap">
+    <div class="card text-center" style="width: 250px;">
+        <div class="card-body">
+            <h3 class="card-title">Метод Крамера</h3>
+            <p class="card-text">Квадратные системы 2×2, 3×3, 4×4</p>
+            <a asp-controller="System" asp-action="Cramer" class="btn btn-primary">Выбрать</a>
+        </div>
+    </div>
+
+    <div class="card text-center" style="width: 250px;">
+        <div class="card-body">
+            <h3 class="card-title">Метод Гаусса</h3>
+            <p class="card-text">Прямоугольные системы (2×3, 3×4 и т.д.)</p>
+            <a asp-controller="System" asp-action="Gauss" class="btn btn-success">Выбрать</a>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">На главную</a>
+</div>

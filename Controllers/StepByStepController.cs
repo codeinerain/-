@@ -408,6 +408,17 @@ namespace Web.Controllers
             ViewBag.C = session.C;
             ViewBag.D = session.D;
 
+            // Вычисляем промежуточные значения для отображения
+            double numeratorP = 3 * session.A * session.C - session.B * session.B;
+            double denominatorP = 3 * session.A * session.A;
+            double numeratorQ = 2 * Math.Pow(session.B, 3) - 9 * session.A * session.B * session.C + 27 * Math.Pow(session.A, 2) * session.D;
+            double denominatorQ = 27 * Math.Pow(session.A, 3);
+
+            ViewBag.NumeratorP = numeratorP;
+            ViewBag.DenominatorP = denominatorP;
+            ViewBag.NumeratorQ = numeratorQ;
+            ViewBag.DenominatorQ = denominatorQ;
+
             return View(session);
         }
 
@@ -419,6 +430,12 @@ namespace Web.Controllers
                 return RedirectToAction("Cubic");
 
             var session = JsonSerializer.Deserialize<StepByStepSession>(sessionJson);
+
+            ViewBag.Equation = session.Equation;
+            ViewBag.A = session.A;
+            ViewBag.B = session.B;
+            ViewBag.C = session.C;
+            ViewBag.D = session.D;
 
             // Вычисляем p и q (приведённое уравнение t³ + pt + q = 0)
             double shift = session.B / (3 * session.A);
@@ -518,7 +535,7 @@ namespace Web.Controllers
 
             double delta = Math.Pow(session.Q / 2, 2) + Math.Pow(session.P / 3, 3);
 
-            // Парсим введённое значение (с заменой запятой на точку)
+            // Парсим введённое значение
             double parsedUserDelta;
             try
             {
@@ -527,7 +544,7 @@ namespace Web.Controllers
             }
             catch
             {
-                ViewBag.Error = "❌ Неверный формат числа. Используйте точку или запятую.";
+                ViewBag.Error = "❌ Неверный формат числа.";
                 ViewBag.UserDelta = userDelta;
                 ViewBag.Equation = session.Equation;
                 ViewBag.P = session.P;
@@ -536,7 +553,8 @@ namespace Web.Controllers
                 return View(session);
             }
 
-            System.Diagnostics.Debug.WriteLine($"userDelta={userDelta}, parsedUserDelta={parsedUserDelta}, delta={delta}");
+            // СОХРАНЯЕМ Delta В СЕССИЮ
+            session.Delta = delta;
 
             if (Math.Abs(parsedUserDelta - delta) < 0.001)
             {
@@ -565,14 +583,17 @@ namespace Web.Controllers
 
             var session = JsonSerializer.Deserialize<StepByStepSession>(sessionJson);
             ViewBag.Equation = session.Equation;
-            ViewBag.Delta = session.Delta;
+
+            // ИСПОЛЬЗУЕМ Delta ИЗ СЕССИИ (НЕ ПЕРЕСЧИТЫВАЕМ!)
+            double delta = session.Delta;
+            ViewBag.Delta = delta;
             ViewBag.P = session.P;
             ViewBag.Q = session.Q;
 
             // Вычисляем корни
-            if (session.Delta > 0)
+            if (delta > 0)
             {
-                double sqrtDelta = Math.Sqrt(session.Delta);
+                double sqrtDelta = Math.Sqrt(delta);
                 double alpha = Math.Cbrt(-session.Q / 2 + sqrtDelta);
                 double beta = Math.Cbrt(-session.Q / 2 - sqrtDelta);
                 session.Alpha = alpha;
@@ -583,21 +604,51 @@ namespace Web.Controllers
                 session.Root2Real = -(alpha + beta) / 2;
                 session.Root2Imag = (alpha - beta) * Math.Sqrt(3) / 2;
             }
-            else if (Math.Abs(session.Delta) < 0.0001)
+            else if (Math.Abs(delta) < 0.0001)
             {
                 double u = Math.Cbrt(-session.Q / 2);
-                session.Root1 = 2 * u - session.Shift;
-                session.Root2 = -u - session.Shift;
-                session.Root3 = -u - session.Shift;
+                double t1 = 2 * u;
+                double t2 = -u;
+                session.Root1 = t1 - session.Shift;
+                session.Root2 = t2 - session.Shift;
+                session.Root3 = t2 - session.Shift;
             }
             else
             {
-                double r = 2 * Math.Sqrt(-session.P / 3);
-                double phi = Math.Acos((3 * session.Q) / (2 * session.P) * Math.Sqrt(-3 / session.P));
-                session.Root1 = r * Math.Cos(phi / 3) - session.Shift;
-                session.Root2 = r * Math.Cos((phi + 2 * Math.PI) / 3) - session.Shift;
-                session.Root3 = r * Math.Cos((phi + 4 * Math.PI) / 3) - session.Shift;
+                // delta < 0
+                if (Math.Abs(session.Q) < 0.0001)
+                {
+                    double t1 = 0;
+                    double t2 = Math.Sqrt(-session.P);
+                    double t3 = -Math.Sqrt(-session.P);
+
+                    session.Root1 = t1 - session.Shift;
+                    session.Root2 = t2 - session.Shift;
+                    session.Root3 = t3 - session.Shift;
+                }
+                else
+                {
+                    double r = 2 * Math.Sqrt(-session.P / 3);
+                    double phi = Math.Acos((3 * session.Q) / (2 * session.P) * Math.Sqrt(-3 / session.P));
+
+                    double t1 = r * Math.Cos(phi / 3);
+                    double t2 = r * Math.Cos((phi + 2 * Math.PI) / 3);
+                    double t3 = r * Math.Cos((phi + 4 * Math.PI) / 3);
+
+                    session.Root1 = t1 - session.Shift;
+                    session.Root2 = t2 - session.Shift;
+                    session.Root3 = t3 - session.Shift;
+                }
             }
+
+            System.Diagnostics.Debug.WriteLine($"=== CUBIC STEP 3 ОТЛАДКА ===");
+            System.Diagnostics.Debug.WriteLine($"P = {session.P}");
+            System.Diagnostics.Debug.WriteLine($"Q = {session.Q}");
+            System.Diagnostics.Debug.WriteLine($"Delta = {delta}");
+            System.Diagnostics.Debug.WriteLine($"Shift = {session.Shift}");
+            System.Diagnostics.Debug.WriteLine($"Root1 = {session.Root1}");
+            System.Diagnostics.Debug.WriteLine($"Root2 = {session.Root2}");
+            System.Diagnostics.Debug.WriteLine($"Root3 = {session.Root3}");
 
             session.CurrentStep = 4;
             session.IsCompleted = true;
@@ -615,20 +666,22 @@ namespace Web.Controllers
 
             var session = JsonSerializer.Deserialize<StepByStepSession>(sessionJson);
             ViewBag.Equation = session.Equation;
-            ViewBag.Shift = session.Shift;
-            ViewBag.P = session.P;
-            ViewBag.Q = session.Q;
             ViewBag.Delta = session.Delta;
             ViewBag.Root1 = session.Root1;
             ViewBag.Root2 = session.Root2;
             ViewBag.Root3 = session.Root3;
-            ViewBag.Root2Real = session.Root2Real;
-            ViewBag.Root2Imag = session.Root2Imag;
-            ViewBag.Delta = session.Delta;
+            ViewBag.Shift = session.Shift;
+            ViewBag.P = session.P;
+            ViewBag.Q = session.Q;
+
+            System.Diagnostics.Debug.WriteLine($"=== CUBIC COMPLETE GET ===");
+            System.Diagnostics.Debug.WriteLine($"Root1 = {session.Root1}");
+            System.Diagnostics.Debug.WriteLine($"Root2 = {session.Root2}");
+            System.Diagnostics.Debug.WriteLine($"Root3 = {session.Root3}");
 
             return View(session);
         }
-        
+
 
         [HttpGet]
         // ========== УРАВНЕНИЯ 4 СТЕПЕНИ (метод Феррари) ==========

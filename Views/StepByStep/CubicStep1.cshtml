@@ -14,8 +14,11 @@
     <p>Получаем приведённое уравнение: \(t^3 + pt + q = 0\)</p>
 
     <p><strong>3. Вычислите p и q:</strong></p>
-    <p>\(p = \frac{3ac - b^2}{3a^2} = \frac{3 \cdot @ViewBag.A \cdot @ViewBag.C - @ViewBag.B^2}{3 \cdot @ViewBag.A^2}\)</p>
-    <p>\(q = \frac{2b^3 - 9abc + 27a^2d}{27a^3} = \frac{2 \cdot @ViewBag.B^3 - 9 \cdot @ViewBag.A \cdot @ViewBag.B \cdot @ViewBag.C + 27 \cdot @ViewBag.A^2 \cdot @ViewBag.D}{27 \cdot @ViewBag.A^3}\)</p>
+    <div class="alert alert-secondary p-3">
+        <p><strong>Формулы:</strong></p>
+        <p>\(p = \frac{3ac - b^2}{3a^2}\)</p>
+        <p>\(q = \frac{2b^3 - 9abc + 27a^2d}{27a^3}\)</p>
+    </div>
 
     @if (ViewBag.ErrorP != null || ViewBag.ErrorQ != null)
     {
@@ -45,3 +48,5 @@
         <button type="submit" class="btn btn-primary w-100">Проверить</button>
     </form>
 </div>
+
+ 

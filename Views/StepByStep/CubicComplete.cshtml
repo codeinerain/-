@@ -12,7 +12,7 @@
     <ol>
         <li>Приводим к каноническому виду заменой \(x = t - \frac{b}{3a} = t - @ViewBag.Shift\)</li>
         <li>Получаем: \(t^3 + @ViewBag.P t + @ViewBag.Q = 0\)</li>
-        <li>Вычисляем дискриминант: \(\Delta = \left(\frac{@ViewBag.Q}{2}\right)^2 + \left(\frac{@ViewBag.P}{3}\right)^3 = @ViewBag.Delta\)</li>
+        <li>Вычисляем Δ: \(\Delta = \left(\frac{@ViewBag.Q}{2}\right)^2 + \left(\frac{@ViewBag.P}{3}\right)^3 = @ViewBag.Delta\)</li>
         
         @if (ViewBag.Delta > 0)
         {
